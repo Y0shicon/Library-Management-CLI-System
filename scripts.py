@@ -64,7 +64,7 @@ class Shelf():
         return self.booksCount
 		
     def populateBooks(self):
-        wb = openpyxl.load_workbook('/Users/sukriti/Python/DVM Task/books.xlsx')
+        wb = openpyxl.load_workbook('DVM Task/books.xlsx')
 
         sheet = wb.active
         rows = sheet.rows

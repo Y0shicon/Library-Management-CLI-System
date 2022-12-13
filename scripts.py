@@ -1,4 +1,3 @@
-#from .script import populate
 import openpyxl
 
 
@@ -63,7 +62,6 @@ class Shelf():
 
     def getBookCount(self):
         return self.booksCount
-        # additional methods you can think of
 		
     def populateBooks(self):
         wb = openpyxl.load_workbook('/Users/sukriti/Python/DVM Task/books.xlsx')

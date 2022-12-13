@@ -1,12 +1,14 @@
 from scripts import Book, Shelf, basicUser, librarianUser
+import logging
 import openpyxl
 
+#_______________Defining a shelf instance in the beginning_________
 
-user1 = basicUser('John', 'F2022B3PS0598P')
-book = Book('300 - The Age of Sparta', 1234151341, 'Robin William')
-book.borrowBook(user1)
 shelf = Shelf()
-print(book.holder, user1.hasBook)
+
+#Changing logging configurations
+logging.basicConfig(filename = 'Issue and Return Logs.log', level = logging.DEBUG) 
+
 
 #______________________Interface__________________
 #First Screen
@@ -129,7 +131,7 @@ while True:
             print ('______________BASIC ACCOUNT____________')
             print(
                 '''
-                1. Borrow a book
+                1. Issue a book
                 2. Return a book
                 3. Reserve a book
                 4. Back
@@ -147,10 +149,11 @@ while True:
                 # Testing the book borrowing
                 #book.borrowBook(user)
                 if user.hasBook:
-                    print("You can't borrow a new book as you already have borrowed - '{}'".format(user.bookHeld.name))
+                    print("You can't issue a new book as you already have borrowed - '{}'".format(user.bookHeld.name))
+        
                 elif shelf.isEmpty():
                     shelf.showCatalog()
-                    print('ISEMPTY : {}'.format(shelf.isEmpty))
+        
                 else:
                     print('List of the available books \n\n')
                     userBookBorrowChoice = 0
@@ -160,10 +163,14 @@ while True:
                     #Removing the borrowed book from the shelf
                     shelf.removeBook(userBookBorrowChoice - 1)
                     print('\nRemoved {} from the shelf.\n'.format(chosenBook.name))
-
+                    
                     #Adding the book to the user
                     chosenBook.borrowBook(user)
                     print('{} has successfully borrowed {}.'.format(username, chosenBook.name))
+
+                    #Logging the issue of the book
+                    logging.debug('Removed {} from the shelf.'.format(chosenBook.name))
+                    logging.debug('{} has successfully borrowed {}.'.format(username, chosenBook.name))
 
             elif userFunctionChoice == 2:
                 if user.hasBook:
@@ -176,6 +183,10 @@ while True:
                     #Adding the returned book to the shelf
                     shelf.addBook(bookHeldByUser)
                     print('Added {} to the shelf.\n'.format(bookHeldByUser.name))
+
+                    #Logging the return of the book
+                    logging.debug('{} has successfully returned {}.\n'.format(username, bookHeldByUser.name))
+                    logging.debug('Added {} to the shelf.\n'.format(bookHeldByUser.name))
 
             elif userFunctionChoice == 3 :
                 userBookReserveChoice = 0
